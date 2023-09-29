@@ -18,6 +18,10 @@ DLList * dllist_create();
 
 TNodo* dllist_add(DLList * lista, TElement elem);
 
+TNodo* dllist_add_first(DLList * lista, TElement elem);
+
+TNodo* dllist_add_at(DLList * lista, TElement elem, unsigned int pos);
+
 bool dllist_remove_elem(DLList * lista, TElement elem);
 
 TElement * dllist_remove_pos(DLList * lista, unsigned int pos);
@@ -33,6 +37,8 @@ int dllist_size(DLList * lista);
 void dllist_destroy(DLList * lista);
 
 TNodo* dllist_get_pos(DLList * lista, TElement elem);
+
+TNodo* dllist_get_pos_at(DLList * lista, unsigned int pos);
 
 TNodo* dllist_prev(DLList * lista, TNodo* nodo);
 

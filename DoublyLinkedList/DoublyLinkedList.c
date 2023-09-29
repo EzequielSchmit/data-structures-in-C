@@ -40,6 +40,39 @@ TNodo* dllist_add(DLList * lista, TElement elem){
     } else return NULL;
 }
 
+TNodo* dllist_add_first(DLList * lista, TElement elem){
+    if (lista != NULL && elem != NULL){
+        TNodo* newPos = (TNodo*)malloc(sizeof(TNodo));
+        if (newPos != NULL){
+            newPos->elem = elem;
+            lista->head->next->prev = newPos;
+            newPos->next = lista->head->next;
+            newPos->prev = lista->head;
+            lista->head->next = newPos;
+            lista->size++;
+        }
+        return newPos;
+    } else return NULL;
+}
+
+TNodo* dllist_add_at(DLList * lista, TElement elem, unsigned int pos){
+    if (lista != NULL && elem != NULL){
+        TNodo* newPos = (TNodo*)malloc(sizeof(TNodo));
+        if (newPos != NULL){
+            TNodo *prev, *next = dllist_get_pos_at(lista, pos);
+            prev = next->prev;
+
+            newPos->elem = elem;
+            next->prev = newPos;
+            newPos->next = next;
+            newPos->prev = prev;
+            prev->next = newPos;
+            lista->size++;
+        }
+        return newPos;
+    } else return NULL;
+}
+
 bool dllist_remove_elem(DLList * lista, TElement elem){
     bool isInTheList = false;
     if (lista != NULL && elem != NULL){
@@ -61,7 +94,6 @@ bool dllist_remove_elem(DLList * lista, TElement elem){
 TElement * dllist_remove_pos(DLList * lista, unsigned int pos){
     TElement * elem = NULL;
     if (lista != NULL && pos < lista->size){
-        int i = 0;
         TNodo* aux = lista->head->next;
         for (int i = 0; i < pos; i++)
             aux = aux->next;
@@ -115,7 +147,7 @@ void dllist_destroy(DLList * lista){
     free(lista);
 }
 
-TNodo* dllist_get_nodo(DLList * lista, TElement elem){
+TNodo* dllist_get_pos(DLList * lista, TElement elem){
     if (lista != NULL && elem != NULL && lista->size > 0){
         TNodo* aux = lista->head;
 
@@ -129,7 +161,22 @@ TNodo* dllist_get_nodo(DLList * lista, TElement elem){
 
 };
 
-TNodo* dllist_prev(DLList * lista, TNodo* nodo);
+TNodo* dllist_get_pos_at(DLList * lista, unsigned int pos){
+    TNodo * nodo = NULL;
+    if (lista != NULL && pos < lista->size){
+        TNodo* aux = lista->head->next;
+        for (int i = 0; i < pos; i++)
+            aux = aux->next;
+        nodo = aux;
+    }
+    return nodo;
+}
 
-TNodo* dllist_next(DLList * lista, TNodo* nodo);
+TNodo* dllist_prev(DLList * lista, TNodo* nodo){
+    return nodo->prev;
+}
+
+TNodo* dllist_next(DLList * lista, TNodo* nodo){
+    return nodo->next;
+}
 
